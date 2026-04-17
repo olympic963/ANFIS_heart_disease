@@ -2,14 +2,7 @@ from __future__ import annotations
 
 import mysql.connector
 
-
-DB_CONFIG = {
-    "host": "localhost",
-    "port": 3306,
-    "user": "root",
-    "password": "anacondaxs5",
-    "database": "heart_disease",
-}
+from db_config import DB_CONFIG
 
 SOURCE_TABLE = "processed_heart_disease"
 COMPLETE_TABLE = "processed_heart_disease_complete"

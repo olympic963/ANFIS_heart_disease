@@ -6,13 +6,7 @@ from typing import Callable
 
 import mysql.connector
 
-
-DB_CONFIG = {
-    "host": "localhost",
-    "port": 3306,
-    "user": "root",
-    "password": "anacondaxs5",
-}
+from db_config import DB_CONFIG
 
 DATABASE_NAME = "heart_disease"
 TABLE_NAME = "processed_heart_disease"
@@ -81,7 +75,8 @@ def read_rows() -> list[tuple]:
 
 
 def main() -> None:
-    connection = mysql.connector.connect(**DB_CONFIG)
+    base_config = {k: v for k, v in DB_CONFIG.items() if k != "database"}
+    connection = mysql.connector.connect(**base_config)
     cursor = connection.cursor()
 
     cursor.execute(f"CREATE DATABASE IF NOT EXISTS {DATABASE_NAME}")
