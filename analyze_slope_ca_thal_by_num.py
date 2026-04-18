@@ -1,60 +1,90 @@
 """
-Voi cac ban ghi co day du slope, ca, thal (khong '?'),
-in tap gia tri duy nhat va khoang min-max cua tung thuoc tinh theo tung gia tri num.
+Tan so (so ban ghi) theo ting gia tri trong mien mo ta tai lieu cho 3 thuoc tinh
+bi thieu nhieu nhat: slope, ca, thal.
+Du lieu doc qua read_rows() giong import_processed_to_mysql.
 """
 from __future__ import annotations
 
-from collections import defaultdict
+from dataclasses import dataclass
 from import_processed_to_mysql import read_rows
 
 # read_rows(): (source_file, source_line, age, sex, cp, trestbps, chol, fbs,
 #               restecg, thalach, exang, oldpeak, slope, ca, thal, num)
-_IDX_SLOPE = 12
-_IDX_CA = 13
-_IDX_THAL = 14
-_IDX_NUM = 15
+
+
+@dataclass(frozen=True)
+class DiscreteAttr:
+    name: str
+    idx: int
+    domain: tuple[int, ...]
+
+
+ATTRS: tuple[DiscreteAttr, ...] = (
+    DiscreteAttr("slope", 12, (1, 2, 3)),
+    DiscreteAttr("ca", 13, (0, 1, 2, 3)),
+    DiscreteAttr("thal", 14, (3, 6, 7)),
+)
+
+
+def _to_int_category(value: int | float | None) -> int | None:
+    if value is None:
+        return None
+    fv = float(value)
+    ri = round(fv)
+    if abs(fv - ri) > 1e-9:
+        return None
+    return int(ri)
+
+
+def count_by_domain(
+    rows: list[tuple],
+    attr: DiscreteAttr,
+) -> tuple[dict[int, int], int, int]:
+    """Tra ve (dem theo tung gia tri trong mien, so thieu, so ngoai mien)."""
+    domain_set = set(attr.domain)
+    counts = {v: 0 for v in attr.domain}
+    missing = 0
+    other = 0
+
+    for r in rows:
+        raw = r[attr.idx]
+        if raw is None:
+            missing += 1
+            continue
+        cat = _to_int_category(raw)
+        if cat is None or cat not in domain_set:
+            other += 1
+        else:
+            counts[cat] += 1
+
+    return counts, missing, other
+
+
+def print_discrete_block(rows: list[tuple], attr: DiscreteAttr) -> None:
+    counts, missing, other = count_by_domain(rows, attr)
+    print(f"--- {attr.name} ---")
+    print(f"  Mien mo ta: {list(attr.domain)}")
+    total_in_domain = sum(counts.values())
+    for v in attr.domain:
+        print(f"    {attr.name} = {v}: {counts[v]} ban ghi")
+    print(f"  Tong ban ghi co {attr.name} trong mien: {total_in_domain}")
+    print(f"  Gia tri thieu (?): {missing}")
+    if other:
+        print(f"  Gia tri ngoai mien (khong nap vao bang): {other}")
+    print()
 
 
 def main() -> None:
     rows = read_rows()
+    n = len(rows)
 
-    complete = [
-        r
-        for r in rows
-        if r[_IDX_SLOPE] is not None and r[_IDX_CA] is not None and r[_IDX_THAL] is not None
-    ]
-
-    print(f"Tong so ban ghi: {len(rows)}")
-    print(f"Ban ghi day du slope, ca, thal: {len(complete)}")
+    print(f"Tong so ban ghi (4 file processed): {n}")
+    print()
+    print("Tan so theo mien gia tri: slope, ca, thal (theo tai lieu mo ta)")
     print()
 
-    by_file: dict[str, int] = defaultdict(int)
-    for r in complete:
-        by_file[r[0]] += 1
-    print("So ban ghi day du theo tep nguon:")
-    for fn in sorted(by_file.keys()):
-        print(f"  - {fn}: {by_file[fn]}")
-    print()
-
-    by_num: dict[int, dict[str, set[int]]] = defaultdict(
-        lambda: {"slope": set(), "ca": set(), "thal": set()}
-    )
-    for r in complete:
-        num = r[_IDX_NUM]
-        assert num is not None
-        by_num[num]["slope"].add(r[_IDX_SLOPE])
-        by_num[num]["ca"].add(r[_IDX_CA])
-        by_num[num]["thal"].add(r[_IDX_THAL])
-
-    for num in sorted(by_num.keys()):
-        d = by_num[num]
-        n_count = sum(1 for r in complete if r[_IDX_NUM] == num)
-        print(f"=== num = {num} (so ban ghi trong tap day du: {n_count}) ===")
-        for label, key in [("slope", "slope"), ("ca", "ca"), ("thal", "thal")]:
-            vals = sorted(d[key])
-            print(f"  {label}: gia tri duy nhat = {vals}")
-            print(f"    khoang [{min(vals)}, {max(vals)}], so gia tri khac nhau = {len(vals)}")
-        print()
+    for attr in ATTRS:
+        print_discrete_block(rows, attr)
 
 
 if __name__ == "__main__":
