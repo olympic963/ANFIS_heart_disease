@@ -1,26 +1,82 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="e2b50912-a250-4b2f-b17b-9ce5a444073f" name="Changes" comment="" />
+    <list default="true" id="e2b50912-a250-4b2f-b17b-9ce5a444073f" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/BTL2.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/BTL2.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/create_final_table_mysql.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/report_missing_from_mysql.py" beforeDir="false" afterPath="$PROJECT_DIR$/analyze_data/report_missing_from_mysql.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/split_missing_records_mysql.py" beforeDir="false" afterPath="$PROJECT_DIR$/analyze_data/split_missing_records_mysql.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 4
-}]]></component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="3CU90RXFH7JjaSFbX2mpneBrZGj" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;Python.analyze_missing_values_by_num.executor&quot;: &quot;Run&quot;,
+    &quot;Python.analyze_outliers_iqr_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.analyze_outliers_mean_std_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.analyze_slope_ca_thal_by_num.executor&quot;: &quot;Run&quot;,
+    &quot;Python.anfis_desktop_app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.anfis_desktop_app_softmax.executor&quot;: &quot;Run&quot;,
+    &quot;Python.anfis_desktop_app_triangle.executor&quot;: &quot;Run&quot;,
+    &quot;Python.anfis_web_app.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create_final_table_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create_missing_processed_table_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.create_outlier_processed_table_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.import_processed_to_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.manage_anfis_rules.executor&quot;: &quot;Run&quot;,
+    &quot;Python.normalize_final_table_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot_final_table_distributions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot_final_table_distributions_window.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot_outlier_processed_distributions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot_processed_table_distributions.executor&quot;: &quot;Run&quot;,
+    &quot;Python.plot_processed_table_distributions_window.executor&quot;: &quot;Run&quot;,
+    &quot;Python.report_missing_from_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.split_missing_records_mysql.executor&quot;: &quot;Run&quot;,
+    &quot;Python.test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train_anfis_from_rules.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train_anfis_softmax_from_rules.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train_anfis_triangle_from_rules.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Học tập\Các hệ thống dựa trên tri thức\BTL2\analyze_data" />
+      <recent name="D:\Học tập\Các hệ thống dựa trên tri thức\BTL2\plots\script" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -37,5 +93,15 @@
       <updated>1776429058854</updated>
     </task>
     <servers />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/analyze_data/report_missing_from_mysql.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

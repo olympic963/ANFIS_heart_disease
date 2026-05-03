@@ -1,0 +1,264 @@
+{
+  "data_table": "processed_heart_disease_normalized",
+  "membership": "triangle",
+  "cv": {
+    "k_folds": 5,
+    "mean_val_mse": 1.0906707179027184,
+    "std_val_mse": 0.13949661795387183,
+    "best_fold": 4,
+    "best_epoch": 1,
+    "best_val_mse": 0.9618429568340853
+  },
+  "fuzzy_params": {
+    "age": {
+      "young": {
+        "a": -0.902875323350943,
+        "b": 0.9974709827226922
+      },
+      "middle": {
+        "a": 0.052076717987665465,
+        "b": 0.9974709827226922
+      },
+      "old": {
+        "a": 0.9009229769553174,
+        "b": 0.9974709827226922
+      }
+    },
+    "trestbps": {
+      "low": {
+        "a": -0.6770517364304571,
+        "b": 1.024225189135085
+      },
+      "high": {
+        "a": 0.4384207371794214,
+        "b": 1.024225189135085
+      }
+    },
+    "chol": {
+      "low": {
+        "a": -0.3906355105169853,
+        "b": 1.002664313324296
+      },
+      "high": {
+        "a": 0.2041315077065889,
+        "b": 1.002664313324296
+      }
+    },
+    "thalach": {
+      "low": {
+        "a": -0.6234821039941008,
+        "b": 1.0124972607076663
+      },
+      "high": {
+        "a": 0.5221597692933636,
+        "b": 1.0124972607076663
+      }
+    },
+    "oldpeak": {
+      "low": {
+        "a": -0.8059465321872803,
+        "b": 1.033355084951331
+      },
+      "high": {
+        "a": 0.5175133380260636,
+        "b": 1.033355084951331
+      }
+    }
+  },
+  "rules": [
+    {
+      "rule_no": 1,
+      "antecedents": [
+        {
+          "kind": "fuzzy",
+          "variable": "age",
+          "label": "old"
+        },
+        {
+          "kind": "fuzzy",
+          "variable": "chol",
+          "label": "high"
+        },
+        {
+          "kind": "fuzzy",
+          "variable": "oldpeak",
+          "label": "high"
+        },
+        {
+          "kind": "binary",
+          "variable": "exang",
+          "label": "1"
+        },
+        {
+          "kind": "binary",
+          "variable": "cp_4",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f1 = p1*age + q1*chol + r1*oldpeak + s1"
+    },
+    {
+      "rule_no": 2,
+      "antecedents": [
+        {
+          "kind": "fuzzy",
+          "variable": "thalach",
+          "label": "low"
+        },
+        {
+          "kind": "fuzzy",
+          "variable": "oldpeak",
+          "label": "high"
+        },
+        {
+          "kind": "binary",
+          "variable": "exang",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f2 = p2*thalach + q2*oldpeak + s2"
+    },
+    {
+      "rule_no": 3,
+      "antecedents": [
+        {
+          "kind": "binary",
+          "variable": "cp_4",
+          "label": "1"
+        },
+        {
+          "kind": "binary",
+          "variable": "restecg_2",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f3 = p3*age + q3*chol + s3"
+    },
+    {
+      "rule_no": 4,
+      "antecedents": [
+        {
+          "kind": "fuzzy",
+          "variable": "age",
+          "label": "old"
+        },
+        {
+          "kind": "fuzzy",
+          "variable": "trestbps",
+          "label": "high"
+        },
+        {
+          "kind": "fuzzy",
+          "variable": "chol",
+          "label": "high"
+        }
+      ],
+      "consequent_text": "f4 = p4*age + q4*trestbps + r4*chol + s4"
+    },
+    {
+      "rule_no": 5,
+      "antecedents": [
+        {
+          "kind": "fuzzy",
+          "variable": "chol",
+          "label": "high"
+        },
+        {
+          "kind": "fuzzy",
+          "variable": "thalach",
+          "label": "low"
+        },
+        {
+          "kind": "binary",
+          "variable": "fbs",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f5 = p5*chol + q5*thalach + s5"
+    },
+    {
+      "rule_no": 6,
+      "antecedents": [
+        {
+          "kind": "binary",
+          "variable": "exang",
+          "label": "1"
+        },
+        {
+          "kind": "binary",
+          "variable": "cp_3",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f6 = p6*thalach + q6*oldpeak + s6"
+    },
+    {
+      "rule_no": 7,
+      "antecedents": [
+        {
+          "kind": "fuzzy",
+          "variable": "oldpeak",
+          "label": "low"
+        },
+        {
+          "kind": "binary",
+          "variable": "fbs",
+          "label": "0"
+        },
+        {
+          "kind": "binary",
+          "variable": "restecg_0",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f8 = p8*oldpeak + s8"
+    },
+    {
+      "rule_no": 8,
+      "antecedents": [
+        {
+          "kind": "fuzzy",
+          "variable": "oldpeak",
+          "label": "low"
+        },
+        {
+          "kind": "binary",
+          "variable": "fbs",
+          "label": "0"
+        },
+        {
+          "kind": "binary",
+          "variable": "restecg_0",
+          "label": "1"
+        }
+      ],
+      "consequent_text": "f8 = p8*oldpeak + s8"
+    }
+  ],
+  "theta": [
+    1.112979760136233,
+    -0.5973597106628882,
+    -0.5113921169540376,
+    1.5654745577963656,
+    0.056594366695905396,
+    -0.04747639782313995,
+    1.237608787935456,
+    0.4384469811103815,
+    -0.10437216319079547,
+    1.5571048682567148,
+    0.6408894812391974,
+    -0.30373509615830946,
+    -0.5915615565225824,
+    0.9702748011970754,
+    0.37895473593714557,
+    -0.369929809951803,
+    1.7516860830098135,
+    -0.8079531563156326,
+    0.6109573111015016,
+    0.9046948344344693,
+    0.14265231979087545,
+    0.5896948755050513,
+    0.1426523197908752,
+    0.5896948755050513
+  ]
+}

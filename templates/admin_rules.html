@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>Thêm luật mới</h3>
+  <p class="small">Chỉ cần chọn vế IF. Hệ thống tự sinh vế THEN tuyến tính theo các thuộc tính liên tục đã dùng.</p>
+  <p class="small"><strong>Rule No tự sinh:</strong> {{ next_rule_no }}</p>
+  <form method="post" action="{{ url_for('admin_rules_add') }}" class="grid grid-3">
+    {% for field, opts in options.items() %}
+      <div>
+        <label>{{ field_labels[field] }}</label>
+        <select name="{{ field }}">
+          {% for value, text in opts %}
+            <option value="{{ value }}">{{ text }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    {% endfor %}
+    <div style="grid-column: 1 / -1;">
+      <label>Thuộc tính dùng trong hàm hậu đề f</label>
+      <div class="small">Có thể chọn khác với các thuộc tính ở vế IF.</div>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:8px;">
+        {% for value, text in consequent_choices %}
+          <label style="display:inline-flex; align-items:center; gap:6px; margin:0;">
+            <input type="checkbox" name="consequent_vars" value="{{ value }}" style="width:auto;"> {{ text }}
+          </label>
+        {% endfor %}
+      </div>
+    </div>
+    <div style="align-self:end;"><button type="submit">Thêm luật</button></div>
+  </form>
+</div>
+
+<div class="card">
+  <h3>Danh sách luật</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Rule</th><th>Tuổi</th><th>Huyết áp nghỉ</th><th>Cholesterol</th><th>Nhịp tim tối đa</th><th>ST depression</th>
+        <th>consequent</th><th>Thao tác</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for r in rules %}
+      <tr>
+        <form method="post" action="{{ url_for('admin_rules_edit', rule_no=r.rule_no) }}">
+          <td>{{ r.rule_no }}</td>
+          <td>
+            <select name="age">{% for value, text in options.age %}<option value="{{ value }}" {% if r.age==value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </td>
+          <td>
+            <select name="trestbps">{% for value, text in options.trestbps %}<option value="{{ value }}" {% if r.trestbps==value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </td>
+          <td>
+            <select name="chol">{% for value, text in options.chol %}<option value="{{ value }}" {% if r.chol==value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </td>
+          <td>
+            <select name="thalach">{% for value, text in options.thalach %}<option value="{{ value }}" {% if r.thalach==value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </td>
+          <td>
+            <select name="oldpeak">{% for value, text in options.oldpeak %}<option value="{{ value }}" {% if r.oldpeak==value %}selected{% endif %}>{{ text }}</option>{% endfor %}</select>
+          </td>
+          <td>{{ r.consequent_text }}</td>
+          <td>
+            <button type="submit" class="secondary">Lưu</button>
+        </form>
+            <form method="post" action="{{ url_for('admin_rules_delete', rule_no=r.rule_no) }}" style="margin-top:6px;" onsubmit="return confirm('Xóa luật này?');">
+              <button type="submit" class="danger">Xóa</button>
+            </form>
+          </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
+

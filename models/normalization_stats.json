@@ -1,0 +1,27 @@
+{
+  "method": "zscore",
+  "source_table": "heart_disease_outlier_processed",
+  "target_table": "processed_heart_disease_normalized",
+  "continuous": {
+    "age": {
+      "mean": 53.5092,
+      "std": 9.424557056691777
+    },
+    "trestbps": {
+      "mean": 132.139281828074,
+      "std": 17.9296221764005
+    },
+    "chol": {
+      "mean": 245.2290533188248,
+      "std": 51.784983121613124
+    },
+    "thalach": {
+      "mean": 137.67355821545158,
+      "std": 25.138745948031058
+    },
+    "oldpeak": {
+      "mean": 0.8525571273122958,
+      "std": 1.0578333589928326
+    }
+  }
+}

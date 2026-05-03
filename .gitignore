@@ -1,0 +1,7 @@
+*.txt
+
+# Editor / IDE files
+.idea/
+.vscode/
+*.iml
+*.code-workspace

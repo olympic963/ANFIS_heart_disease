@@ -1,0 +1,64 @@
+Chi phí xét nghiệm bệnh tim mạch
+-------------------------------------
+
+Peter Turney
+Ngày 7 tháng 6 năm 1995
+Có bốn tập tin, ở định dạng tương tự C4.5, chứa thông tin liên quan đến chi phí:
+
+	1. heart-disease.cost
+	2. heart-disease.delay
+	3. heart-disease.expense
+	4. heart-disease.group
+
+Để biết thêm thông tin về cách sử dụng và ý nghĩa của các tập tin này, xem tại:
+
+http://www.cs.washington.edu/research/jair/volume2/turney95a-html/title.html
+
+Phần còn lại của tập tin này mô tả định dạng của bốn tập tin trên.
+
+
+heart-disease.cost
+------------------
+
+Mỗi hàng có định dạng "<xét nghiệm>: <chi phí>". Chi phí được tính bằng đô la Canada.
+Thông tin chi phí được lấy từ bảng phí của Chương trình Bảo hiểm Y tế Ontario.
+Chi phí trong tập tin này dành cho các xét nghiệm riêng lẻ, được xem xét độc lập. 
+Khi các xét nghiệm được thực hiện theo nhóm, có thể có chiết khấu do chi phí chung được chia sẻ. 
+Các nhóm xét nghiệm có chi phí chung được xác định trong tệp "heart-disease.group". 
+Chi phí đã được chiết khấu nằm trong tệp "heart-disease.expense".
+
+
+heart-disease.delay
+-------------------
+
+Mỗi hàng có định dạng "<xét nghiệm>: <ngay lập tức/trì hoãn>". 
+Các xét nghiệm có kết quả ngay lập tức được đánh dấu "ngay lập tức". 
+Các xét nghiệm có kết quả trì hoãn được đánh dấu "trì hoãn". 
+Các xét nghiệm trì hoãn thường là xét nghiệm máu, thường được gửi đến phòng thí nghiệm
+Kết quả được gửi lại cho bác sĩ vào ngày hôm sau.
+
+
+heart-disease.expense
+---------------------
+
+Mỗi hàng có định dạng "<xét nghiệm>: <chi phí đầy đủ>, <chi phí chiết khấu>". 
+Chi phí đầy đủ được tính khi xét nghiệm đó là xét nghiệm đầu tiên trong nhóm xét
+nghiệm đó được yêu cầu cho một bệnh nhân cụ thể. Chi phí chiết khấu được tính khi 
+xét nghiệm đó là xét nghiệm thứ hai hoặc các xét nghiệm sau đó trong nhóm xét nghiệm đó
+được yêu cầu. Một số xét nghiệm bao gồm, ví dụ, việc cho bệnh nhân chạy trên máy chạy bộ
+trong khi theo dõi bằng điện tâm đồ (ECG). Có thể thu được một số kết quả xét nghiệm khác
+nhau từ xét nghiệm này (tôi đang sử dụng từ "xét nghiệm" theo hai cách khác nhau: một đặc
+điểm hoặc phép đo đơn lẻ, mặt khác là một quy trình đơn lẻ - có thể là một nhóm các phép đo
+hoặc đặc điểm). Sau khi bạn quyết định trả tiền cho một trong các xét nghiệm trong nhóm này, 
+các xét nghiệm khác hầu như miễn phí. Chi phí chính là chuyên môn cần thiết để giải thích ECG.
+
+
+heart-disease.group
+-------------------
+
+Hàng đầu tiên liệt kê các nhóm. Các hàng còn lại có định dạng "<xét nghiệm>: <nhóm>". 
+Các ký hiệu được sử dụng cho các nhóm là tùy ý. Thông tin trong tệp này được dùng cùng 
+với thông tin trong "heart-disease.expense". Các xét nghiệm trong cùng một nhóm có chung chi phí.
+
+
+

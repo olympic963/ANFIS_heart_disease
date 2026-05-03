@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h3>Dự đoán nguy cơ bệnh tim</h3>
+  <form method="post" class="grid grid-3">
+    <div><label>Tuổi (age)</label><input name="age" value="{{ form_values.age }}" required></div>
+    <div><label>Huyết áp lúc nghỉ (trestbps)</label><input name="trestbps" value="{{ form_values.trestbps }}" required></div>
+    <div><label>Cholesterol (chol)</label><input name="chol" value="{{ form_values.chol }}" required></div>
+    <div><label>Nhịp tim tối đa (thalach)</label><input name="thalach" value="{{ form_values.thalach }}" required></div>
+    <div><label>ST depression (oldpeak)</label><input name="oldpeak" value="{{ form_values.oldpeak }}" required></div>
+    <div style="align-self:end;"><button type="submit">Dự đoán & vẽ biểu đồ</button></div>
+  </form>
+</div>
+
+{% if prediction %}
+<div class="card">
+  <h3>Kết quả</h3>
+  <p><strong>Mức nguy cơ:</strong> {{ prediction.level }} ({{ prediction.label }})</p>
+  <p><strong>Điểm rủi ro:</strong> {{ "%.2f"|format(prediction.risk_score) }} / 4.0</p>
+  <h4>Đóng góp luật</h4>
+  <table>
+    <thead><tr><th>Rule</th><th>Đóng góp</th><th>Hàm hậu đề</th></tr></thead>
+    <tbody>
+      {% for r in prediction.rules %}
+      <tr>
+        <td>{{ r.rule_no }}</td>
+        <td>{{ "%.2f"|format(r.pct) }}%</td>
+        <td>{{ r.expr }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% if charts %}
+<div class="card">
+  <h3>Biểu đồ membership theo input hiện tại</h3>
+  <div class="grid">
+    {% for feature, image in charts.items() %}
+      <div>
+        <div class="small">{{ feature }}</div>
+        <img src="data:image/png;base64,{{ image }}" style="width:100%; border:1px solid #e5e7eb; border-radius:6px;">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
