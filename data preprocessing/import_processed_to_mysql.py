@@ -11,7 +11,7 @@ from db_config import DB_CONFIG
 DATABASE_NAME = "heart_disease"
 TABLE_NAME = "processed_heart_disease"
 
-PROCESSED_DIR = Path("heart+disease") / "processed data"
+PROCESSED_DIR = Path("../data") / "processed data"
 SOURCE_FILES = [
     "processed.cleveland.data",
     "processed.hungarian.data",

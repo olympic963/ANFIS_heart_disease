@@ -27,8 +27,8 @@ CONTINUOUS_KEYS = ("age", "trestbps", "chol", "thalach", "oldpeak")
 
 class PredictionManager:
     def __init__(self) -> None:
-        self.model = self._load_model()
-        self.norm_stats = self._load_norm_stats()
+        self.model = self.load_model()
+        self.norm_stats = self.load_norm_stats()
 
     @staticmethod
     def zscore(x: float, mean: float, std: float) -> float:
@@ -37,17 +37,17 @@ class PredictionManager:
         return (x - mean) / std
 
     @staticmethod
-    def gaussian_mu(x: float, a: float, b: float) -> float:
+    def mu_gaussian(x: float, a: float, b: float) -> float:
         b = max(b, 1e-9)
         return math.exp(-0.5 * ((x - a) ** 2) / (b * b))
 
-    def _load_model(self) -> dict:
+    def load_model(self) -> dict:
         if not MODEL_PATH.exists():
             raise FileNotFoundError(f"Không tìm thấy tệp mô hình: {MODEL_PATH}")
         with MODEL_PATH.open("r", encoding="utf-8") as f:
             return json.load(f)
 
-    def _load_norm_stats(self) -> dict:
+    def load_norm_stats(self) -> dict:
         if not NORM_STATS_PATH.exists():
             raise FileNotFoundError(f"Không tìm thấy tệp thống kê chuẩn hóa: {NORM_STATS_PATH}")
         with NORM_STATS_PATH.open("r", encoding="utf-8") as f:
@@ -87,6 +87,28 @@ class PredictionManager:
             i += 1
         return out
 
+    def compute_rule_strengths(
+        self,
+        x: dict[str, float],
+        rules: list[dict],
+        fuzzy_params: dict[str, dict[str, dict[str, float]]],
+    ) -> list[float]:
+        strengths: list[float] = []
+        for rule in rules:
+            w = 1.0
+            for cond in rule["antecedents"]:
+                p = fuzzy_params[cond["variable"]][cond["label"]]
+                w *= self.mu_gaussian(float(x[cond["variable"]]), float(p["a"]), float(p["b"]))
+            strengths.append(w)
+        return strengths
+
+    @staticmethod
+    def normalized_weights(ws: list[float]) -> list[float]:
+        w_sum = sum(ws)
+        if w_sum <= 1e-12:
+            return [0.0 for _ in ws]
+        return [w / w_sum for w in ws]
+
     def infer(self, x: dict[str, float]) -> tuple[float, list[float]]:
         rules = self.model["rules"]
         theta = self.model["theta"]
@@ -99,23 +121,16 @@ class PredictionManager:
             segs.append(theta[idx : idx + n_terms])
             idx += n_terms
 
-        weights: list[float] = []
-        fs: list[float] = []
-        for r, seg in zip(rules, segs):
-            w = 1.0
-            for c in r["antecedents"]:
-                p = fuzzy_params[c["variable"]][c["label"]]
-                w *= self.gaussian_mu(float(x[c["variable"]]), float(p["a"]), float(p["b"]))
-            weights.append(w)
-            fs.append(self.rule_output(r, seg, x))
+        weights = self.compute_rule_strengths(x, rules, fuzzy_params)
+        fs = [self.rule_output(r, seg, x) for r, seg in zip(rules, segs)]
 
         w_sum = sum(weights)
         if w_sum <= 1e-12:
             y_hat = sum(fs) / len(fs) if fs else 0.0
-            norm_w = [0.0 for _ in weights]
+            norm_w = self.normalized_weights(weights)
         else:
             y_hat = sum(w * f for w, f in zip(weights, fs)) / w_sum
-            norm_w = [w / w_sum for w in weights]
+            norm_w = self.normalized_weights(weights)
         contrib = [w * 100.0 for w in norm_w]
         return y_hat, contrib
 
@@ -188,7 +203,7 @@ class PredictionManager:
             fig = plt.figure(figsize=(7.5, 3.0))
             ax = fig.add_subplot(111)
             for label, a_raw, b_raw in mapped:
-                ys = [self.gaussian_mu(x, a_raw, b_raw) for x in xs]
+                ys = [self.mu_gaussian(x, a_raw, b_raw) for x in xs]
                 ax.plot(xs, ys, label=f"{label}")
                 ax.axvline(a_raw, linestyle="--", alpha=0.5)
                 ax.annotate(
@@ -275,7 +290,7 @@ class PredictionManager:
                     flash(f"Lỗi xử lý dự đoán: {exc}", "error")
 
             return render_template(
-                "doctor.html",
+                "predicting_heart_health_view.html",
                 prediction=prediction,
                 charts=chart_images,
                 form_values=form_values,

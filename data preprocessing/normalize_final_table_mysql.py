@@ -19,7 +19,7 @@ SOURCE_TABLE = "heart_disease_outlier_processed"
 TARGET_TABLE = "processed_heart_disease_normalized"
 
 CONTINUOUS_COLS = ("age", "trestbps", "chol", "thalach", "oldpeak")
-NORMALIZATION_STATS_PATH = Path("models") / "normalization_stats.json"
+NORMALIZATION_STATS_PATH = Path("../models") / "normalization_stats.json"
 
 
 def _fetch_mean_std(
